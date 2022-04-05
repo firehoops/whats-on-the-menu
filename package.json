@@ -1,0 +1,26 @@
+{
+  "name": "whats-on-the-menu",
+  "version": "1.0.0",
+  "description": "Allows home cooks to have a list of favorite dishes or recipes ready for your family or friends to pick out what they want. This can be used to help prepare for grocery shopping for the week to cut down on waste or to have a meal voted on for what to cook!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firehoops/whats-on-the-menu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/firehoops/whats-on-the-menu/issues"
+  },
+  "homepage": "https://github.com/firehoops/whats-on-the-menu#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "sqlite3": "^5.0.2"
+  }
+}
