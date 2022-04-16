@@ -35,18 +35,19 @@
         </v-form>
       </v-col>
       <v-col cols="12">
-        {{ menus }}
-      </v-col>
-      <v-col cols="12">
         <v-container fluid>
           <v-row dense>
             <v-col
               v-for="menu in menus"
               :key="menu.id"
             >
-              <v-card>
+              <v-card height="200px">
                 <v-card-title>
-                  {{ menu.name }}
+                  <span class="text-h4">{{ menu.name }}</span>
+                  <v-spacer></v-spacer>
+                  <v-btn icon @click="deleteMenu(menu.id)">
+                    <v-icon>mdi-trash-can</v-icon>
+                  </v-btn>
                 </v-card-title>
                 <v-card-subtitle>
                   {{ menu.description }}
@@ -80,10 +81,12 @@ export default {
         description: this.description
       };
       MenusDataService.add(data)
-        .then(response => {
-          console.log(response.data);
+        .then(res => {
+          console.log(res.data);
           this.submitted = true;
           this.getMenus();
+          this.name = "";
+          this.description = "";
         })
         .catch(e => {
           console.log(e);
@@ -91,9 +94,20 @@ export default {
     },
     getMenus() {
       MenusDataService.getAll()
-        .then(response => {
-          this.menus = response.data;
-          console.log(response.data);
+        .then(res => {
+          this.menus = res.data;
+          console.log(res.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    deleteMenu(id) {
+      MenusDataService.delete(id)
+        .then(res => {
+          delete this.menus[id-1]
+          console.log(res.data);
+          this.getMenus();
         })
         .catch(e => {
           console.log(e);

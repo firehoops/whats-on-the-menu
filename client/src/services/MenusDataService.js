@@ -13,7 +13,7 @@ class MenuDataService {
     return http.put(`/tutorials/${id}`, data);
   }
   delete(id) {
-    return http.delete(`/tutorials/${id}`);
+    return http.delete(`/menus/delete/${id}`);
   }
   deleteAll() {
     return http.delete(`/tutorials`);

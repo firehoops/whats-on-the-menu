@@ -23,6 +23,15 @@ const menusModel = {
             }
         })
     },
+    deleteMenu: ({id}) => {
+        const query = "DELETE FROM menus WHERE id = ?";
+        db.run(query, [id], err => {
+            if (err) {
+                console.log(err)
+            }
+            console.log("deleted " + id)
+        })
+    },
 
 }
 
