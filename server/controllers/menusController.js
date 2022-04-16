@@ -6,13 +6,17 @@ const menusController = {
             results: await menusModel.getAllMenus
         })
     },
-    // getResults: async (req, res) => {
-    //     const { id } = req.params
-
-    //     res.json({
-    //         results: await resultsModel.getResults({id})
-    //     })
-    // }
+    addMenu: async (req, res) => {
+        const {name, description} = req.body
+        await menusModel.addMenu({
+            name: name,
+            description: description
+        })
+        res.json({
+            name: name,
+            description: description,
+        })
+    },
 }
 
 module.exports = menusController

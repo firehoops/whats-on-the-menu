@@ -10,122 +10,98 @@
         />
       </v-col>
 
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to the Vuetify 3 Beta
-        </h1>
-
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br />please join our online
-          <a href="https://community.vuetifyjs.com" target="_blank"
-            >Discord Community</a
-          >
-        </p>
+      <v-col cols="12">
+        <h1 class="display-2 font-weight-bold mb-3">Whats on the Menu???</h1>
       </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-5">What's next?</h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ next.text }}
-          </a>
-        </v-row>
+      <v-col>
+        <v-form>
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-text-field label="Menu Name" v-model="name" required>
+                </v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field label="Menu Description" v-model="description" required>
+                </v-text-field>
+              </v-col>
+              <v-col>
+                <v-btn outlined @click="addMenu" block info
+                  >Add Menu
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
       </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-5">Important Links</h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
+      <v-col cols="12">
+        {{ menus }}
       </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-5">Ecosystem</h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
+      <v-col cols="12">
+        <v-container fluid>
+          <v-row dense>
+            <v-col
+              v-for="menu in menus"
+              :key="menu.id"
+            >
+              <v-card>
+                <v-card-title>
+                  {{ menu.name }}
+                </v-card-title>
+                <v-card-subtitle>
+                  {{ menu.description }}
+                </v-card-subtitle>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-col>
+      
     </v-row>
   </v-container>
 </template>
 
 <script>
+import MenusDataService from '../services/MenusDataService';
 export default {
   name: "HelloWorld",
 
   data: () => ({
-    ecosystem: [
-      {
-        text: "vuetify-loader",
-        href: "https://github.com/vuetifyjs/vuetify-loader",
-      },
-      {
-        text: "github",
-        href: "https://github.com/vuetifyjs/vuetify",
-      },
-      {
-        text: "awesome-vuetify",
-        href: "https://github.com/vuetifyjs/awesome-vuetify",
-      },
-    ],
-    importantLinks: [
-      {
-        text: "Chat",
-        href: "https://community.vuetifyjs.com",
-      },
-      {
-        text: "Made with Vuetify",
-        href: "https://madewithvuejs.com/vuetify",
-      },
-      {
-        text: "Twitter",
-        href: "https://twitter.com/vuetifyjs",
-      },
-      {
-        text: "Articles",
-        href: "https://medium.com/vuetify",
-      },
-    ],
-    whatsNext: [
-      {
-        text: "Explore components",
-        href: "https://vuetifyjs.com",
-      },
-      {
-        text: "Roadmap",
-        href: "https://vuetifyjs.com/introduction/roadmap/",
-      },
-      {
-        text: "Frequently Asked Questions",
-        href: "https://vuetifyjs.com/getting-started/frequently-asked-questions",
-      },
-    ],
+    name: "",
+    description: "",
+    submitted: false,
+    menus: ["test1"],
   }),
+
+  methods: {
+    addMenu() {
+      var data = {
+        name: this.name,
+        description: this.description
+      };
+      MenusDataService.add(data)
+        .then(response => {
+          console.log(response.data);
+          this.submitted = true;
+          this.getMenus();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    getMenus() {
+      MenusDataService.getAll()
+        .then(response => {
+          this.menus = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+  },
+  mounted() {
+    this.getMenus();
+  },
 };
 </script>

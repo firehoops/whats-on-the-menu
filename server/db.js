@@ -1,13 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
 
-
 //connect to db
-const db = new sqlite3.Database("../main.sqlite", err => {
+const db = new sqlite3.Database("./db.sqlite", err => {
     if (err) {
       return console.error(err.message);
     }
-    console.log("Successful connection to the database {main.db}");
+    console.log("Successful connection to the database {db.sqlite}");
   });
+
 
   //create table
 let createTable = () => {
@@ -26,7 +26,7 @@ let createTable = () => {
     
     const seed_insert = `
         INSERT INTO menus (id, name, description) VALUES
-        (1, 'Test1', 'test - description')`;
+        (1, 'Pasta', 'Rigatoni noodles with red sauce')`;
     
     db.run(seed_insert, err => {
         if (err) {
