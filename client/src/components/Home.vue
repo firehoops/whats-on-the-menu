@@ -1,5 +1,25 @@
 <template>
   <v-container>
+    <v-container align="end">
+      <v-btn variant="outlined" color="primary" size="x-large" @click.stop="drawer = !drawer">
+          <v-icon>
+            mdi-cart
+          </v-icon>
+      </v-btn>
+      <v-navigation-drawer v-model="drawer" color="primary" temporary position="right">
+        <v-list color="primary" align="center" class="text-h4" v-if="checkout_cart" lines>
+            <v-list-item-header class="mt-2 font-weight-bold" >Checkout Cart</v-list-item-header>
+            <v-list-item v-for="(menu_name, idx) in checkout_cart" :key="idx" class="text-body-1">
+              <span>{{idx + 1}}. {{ menu_name }}</span>
+              <v-spacer></v-spacer>
+              <v-btn icon @click="removeFromCart(idx)" color="error" size="x-small">
+                <v-icon>mdi-trash-can</v-icon>
+              </v-btn>
+            </v-list-item>
+            <div v-if="!checkout_cart.length" class="mt-4">Empty Cart</div>
+        </v-list>
+      </v-navigation-drawer>
+    </v-container>
     <v-row class="text-center">
       <v-col cols="12">
         <v-img
@@ -40,18 +60,25 @@
             <v-col
               v-for="menu in menus"
               :key="menu.id"
+              class="mx-auto"
             >
-              <v-card height="200px">
+              <v-card min-height="150px" max-width="350px">
                 <v-card-title>
                   <span class="text-h4">{{ menu.name }}</span>
                   <v-spacer></v-spacer>
-                  <v-btn icon @click="deleteMenu(menu.id)">
+                  <v-btn icon @click="deleteMenu(menu.id)" color="error" size="small">
                     <v-icon>mdi-trash-can</v-icon>
                   </v-btn>
                 </v-card-title>
                 <v-card-subtitle>
                   {{ menu.description }}
                 </v-card-subtitle>
+                <v-card-text></v-card-text>
+                <v-card-actions>
+                  <v-btn icon color="primary" variant="outlined" size="small" @click="addToCart(menu.name)">
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </v-card-actions>
               </v-card>
             </v-col>
           </v-row>
@@ -65,15 +92,19 @@
 <script>
 import MenusDataService from '../services/MenusDataService';
 export default {
-  name: "HelloWorld",
+  name: "Home",
 
   data: () => ({
     name: "",
     description: "",
     submitted: false,
-    menus: ["test1"],
+    menus: [],
+    checkout_cart: ["tests"],
+    drawer: false,
   }),
-
+  computed: { 
+    // compute checkout cart dynamically
+  },
   methods: {
     addMenu() {
       var data = {
@@ -83,7 +114,6 @@ export default {
       MenusDataService.add(data)
         .then(res => {
           console.log(res.data);
-          this.submitted = true;
           this.getMenus();
           this.name = "";
           this.description = "";
@@ -105,7 +135,7 @@ export default {
     deleteMenu(id) {
       MenusDataService.delete(id)
         .then(res => {
-          delete this.menus[id-1]
+          delete this.menus[id-1];
           console.log(res.data);
           this.getMenus();
         })
@@ -113,6 +143,12 @@ export default {
           console.log(e);
         });
     },
+    addToCart(menu_name) {
+      this.checkout_cart.push(menu_name);
+    },
+    removeFromCart(idx) {
+      this.checkout_cart.splice(idx,1);
+    }
   },
   mounted() {
     this.getMenus();
