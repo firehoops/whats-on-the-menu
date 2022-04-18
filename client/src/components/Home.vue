@@ -17,6 +17,7 @@
               </v-btn>
             </v-list-item>
             <div v-if="!checkout_cart.length" class="mt-4">Empty Cart</div>
+            <v-btn @click="sendEmail">Submit your order!</v-btn>
         </v-list>
       </v-navigation-drawer>
     </v-container>
@@ -91,6 +92,8 @@
 
 <script>
 import MenusDataService from '../services/MenusDataService';
+import emailjs from 'emailjs-com';
+
 export default {
   name: "Home",
 
@@ -148,6 +151,19 @@ export default {
     },
     removeFromCart(idx) {
       this.checkout_cart.splice(idx,1);
+    },
+    sendEmail() {
+      var data = {
+        service_id: 'service_54shwhf',
+        template_id: 'template_1nlev0c',
+        user_id: 'GtVbAxTJsFK1pGPad',
+        template_params: {
+          to_name: 'Tyler',
+          from_name: 'Jules',
+          message: this.checkout_cart,
+      }
+    };
+    emailjs.send(data.service_id, data.template_id, data.template_params, data.user_id)
     }
   },
   mounted() {

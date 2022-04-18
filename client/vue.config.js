@@ -7,4 +7,8 @@ module.exports = defineConfig({
       // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
     },
   },
+  devServer: {
+    // Proxy for CORS for email 
+    proxy: 'http://localhost:8080'
+}
 });
