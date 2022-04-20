@@ -6,8 +6,8 @@
             mdi-cart
           </v-icon>
       </v-btn>
-      <v-navigation-drawer v-model="drawer" color="primary" temporary position="right">
-        <v-list color="primary" align="center" class="text-h4" v-if="checkout_cart" lines>
+      <v-navigation-drawer v-model="drawer" color="#393939" temporary position="right">
+        <v-list align="center" class="text-h4" v-if="checkout_cart" lines>
             <v-list-item-header class="mt-2 font-weight-bold" >Checkout Cart</v-list-item-header>
             <v-list-item v-for="(menu_name, idx) in checkout_cart" :key="idx" class="text-body-1">
               <span>{{idx + 1}}. {{ menu_name }}</span>
@@ -16,45 +16,42 @@
                 <v-icon>mdi-trash-can</v-icon>
               </v-btn>
             </v-list-item>
-            <div v-if="!checkout_cart.length" class="mt-4">Empty Cart</div>
-            <v-btn @click="sendEmail">Submit your order!</v-btn>
+            <div v-if="!checkout_cart.length" class="mt-6">Your Cart is Empty!</div>
+            <v-btn v-if="checkout_cart.length" color="primary" @click="sendEmail">Submit your order!</v-btn>
         </v-list>
       </v-navigation-drawer>
     </v-container>
+    <!-- Intro & Add new menu area -->
     <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
+      <v-col cols="8" align="left">
+        <h1 class="display-2 font-weight-bold mb-3">Whats on the Menu?</h1>
+        <h3>Create a menu to plan out your meals for the week. Whether you're planning for yourself, family, or friends be prepared and know whats on the menu.</h3>
       </v-col>
-
-      <v-col cols="12">
-        <h1 class="display-2 font-weight-bold mb-3">Whats on the Menu???</h1>
+      <v-col cols="4">
+          <v-form>
+            <v-container>
+              <v-card color="#393939" class="">
+                <v-row>
+                  <v-col>
+                    <v-text-field label="Menu Name" v-model="name" required></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-textarea auto-grow rows="2" label="Menu Description" v-model="description" required></v-textarea>
+                  </v-col>
+                </v-row>
+                  
+                  <v-col>
+                    <v-btn color="primary" outlined @click="addMenu" block
+                      >Add Menu
+                    </v-btn>
+                  </v-col>
+                </v-card>
+            </v-container>
+          </v-form>
       </v-col>
-      <v-col>
-        <v-form>
-          <v-container>
-            <v-row>
-              <v-col>
-                <v-text-field label="Menu Name" v-model="name" required>
-                </v-text-field>
-              </v-col>
-              <v-col>
-                <v-text-field label="Menu Description" v-model="description" required>
-                </v-text-field>
-              </v-col>
-              <v-col>
-                <v-btn outlined @click="addMenu" block info
-                  >Add Menu
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-form>
-      </v-col>
+      <!-- Menu Card section -->
       <v-col cols="12">
         <v-container fluid>
           <v-row dense>
@@ -62,23 +59,32 @@
               v-for="menu in menus"
               :key="menu.id"
               class="mx-auto"
+              cols="4"
             >
-              <v-card min-height="150px" max-width="350px">
+              <v-card min-height="200px" max-width="350px" color="#393939">
+                <v-img
+                  class="align-end text-white"
+                  height="150"
+                  :src="require('../assets/logo.svg')"
+                >
+                </v-img>
                 <v-card-title>
                   <span class="text-h4">{{ menu.name }}</span>
-                  <v-spacer></v-spacer>
-                  <v-btn icon @click="deleteMenu(menu.id)" color="error" size="small">
-                    <v-icon>mdi-trash-can</v-icon>
-                  </v-btn>
                 </v-card-title>
-                <v-card-subtitle>
-                  {{ menu.description }}
-                </v-card-subtitle>
-                <v-card-text></v-card-text>
+                <v-card-subtitle></v-card-subtitle>
+                <v-card-text id="text-box">{{ menu.description }}</v-card-text>
+                <v-divider></v-divider>
                 <v-card-actions>
-                  <v-btn icon color="primary" variant="outlined" size="small" @click="addToCart(menu.name)">
-                    <v-icon>mdi-plus</v-icon>
-                  </v-btn>
+                  <v-row>
+                    <v-col align="end">
+                      <v-btn color="primary" icon variant="outlined" size="small" @click="addToCart(menu.name)" class="mr-2">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                      <v-btn variant="outlined" icon @click="deleteMenu(menu.id)" color="error" size="small" align="right">
+                       <v-icon>mdi-trash-can</v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -102,7 +108,7 @@ export default {
     description: "",
     submitted: false,
     menus: [],
-    checkout_cart: ["tests"],
+    checkout_cart: [],
     drawer: false,
   }),
   computed: { 
@@ -171,3 +177,14 @@ export default {
   },
 };
 </script>
+
+<style>
+#text-box {
+  text-align: left;
+  color: white;
+  overflow: auto;
+}
+#card-gray {
+  color: #393939;
+}
+</style>

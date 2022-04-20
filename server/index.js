@@ -12,20 +12,7 @@ app.get("/", (req, res) => {
     res.send ("Health check");
 }); 
 
-// app.post("/menus/add/", (req, res, next) => {
-//     var sql ='INSERT INTO menus (name, description) VALUES (?,?)'
-//     var params =["asdf", "test description"]
-//     db.run(sql, params, function (err, result) {
-//         if (err){
-//             res.status(400).json({"error": err.message})
-//             return;
-//         }
-//         res.json({
-//             "name": params[0],
-//             "data": params[1],
-//         })
-//     });
-// })
+// issues refreshing data using express router on db.all
 app.get("/menus/", (req, res, next) => {
     const query = "SELECT * FROM menus";
 
@@ -34,9 +21,7 @@ app.get("/menus/", (req, res, next) => {
             console.log(err)
         }
         res.json(rows)
-        console.log("fetched all menus")
-        });
-        
+        });     
 })
 app.use('/menus', menusRouter);
 

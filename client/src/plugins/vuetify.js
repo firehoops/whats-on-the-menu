@@ -16,6 +16,9 @@ export default createVuetify({
           info: '#2196F3',
           success: '#4CAF50',
           warning: '#FFC107',
+          mainPurple: '#8537ed',
+          light: '#4d4d4d',
+          darkGray: '#1a1a1a',
         },
       }
 });
