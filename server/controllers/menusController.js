@@ -7,14 +7,16 @@ const menusController = {
         })
     },
     addMenu: async (req, res) => {
-        const {name, description} = req.body
+        const {name, description, img_name} = req.body
         await menusModel.addMenu({
             name: name,
-            description: description
+            description: description,
+            img_name: img_name
         })
         res.json({
             name: name,
             description: description,
+            img_name: img_name
         })
     },
     deleteMenu: async (req, res) => {

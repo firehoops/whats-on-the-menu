@@ -14,10 +14,10 @@ const menusModel = {
         console.log("fetched all menus")
     }),
 
-    addMenu: ({name, description}) => {
-        const query = "INSERT INTO menus (name, description) VALUES (?, ?)";
+    addMenu: ({name, description, img_name}) => {
+        const query = "INSERT INTO menus (name, description, img_name) VALUES (?, ?, ?)";
 
-        db.run(query, [name, description], err => {
+        db.run(query, [name, description, img_name], err => {
             if (err) {
                 console.log(err)
             }

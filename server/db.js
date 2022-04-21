@@ -15,7 +15,8 @@ let createTable = () => {
         CREATE TABLE IF NOT EXISTS menus (
         id integer PRIMARY KEY AUTOINCREMENT,
         name text,
-        description text);`;
+        description text,
+        img_name text);`;
 
     db.run(db_create, err => {
         if (err) {
@@ -25,8 +26,9 @@ let createTable = () => {
         });
     
     const seed_insert = `
-        INSERT INTO menus (id, name, description) VALUES
-        (1, 'Pasta', 'Rigatoni noodles with red sauce')`;
+        INSERT INTO menus (id, name, description, img_name) VALUES
+        (1, 'Pasta', 'Rigatoni noodles with red sauce', 'penne'),
+        (2, 'Breakfast Caserole', 'Biscuits, eggs, sausage, and veggies baked with cheese!', 'brek_cass')`;
     
     db.run(seed_insert, err => {
         if (err) {

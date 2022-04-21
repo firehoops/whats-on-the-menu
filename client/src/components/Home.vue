@@ -41,7 +41,11 @@
                     <v-textarea auto-grow rows="2" label="Menu Description" v-model="description" required></v-textarea>
                   </v-col>
                 </v-row>
-                  
+                <v-row>
+                  <v-col>
+                    <v-text-field label="Image Name" v-model="img_name" required></v-text-field>
+                  </v-col>
+                </v-row>
                   <v-col>
                     <v-btn color="primary" outlined @click="addMenu" block
                       >Add Menu
@@ -64,12 +68,14 @@
               <v-card min-height="200px" max-width="350px" color="#393939">
                 <v-img
                   class="align-end text-white"
-                  height="150"
-                  :src="require('../assets/logo.svg')"
+                  max-height="200"
+                  cover
+                  :src="getImg(menu.img_name)"
+                  :alt="require(`../assets/logo.svg`)"
                 >
                 </v-img>
                 <v-card-title>
-                  <span class="text-h4">{{ menu.name }}</span>
+                  <span class="text-h5">{{ menu.name }}</span>
                 </v-card-title>
                 <v-card-subtitle></v-card-subtitle>
                 <v-card-text id="text-box">{{ menu.description }}</v-card-text>
@@ -106,6 +112,7 @@ export default {
   data: () => ({
     name: "",
     description: "",
+    img_name: "",
     submitted: false,
     menus: [],
     checkout_cart: [],
@@ -113,12 +120,22 @@ export default {
   }),
   computed: { 
     // compute checkout cart dynamically
+    // getImg () {
+    //   if (this.img_name && require(`../assets/${this.img_name}.png`)) {
+    //     return require(`../assets/${this.img_name}.png`)
+    //   } else {
+    //     return require(`../assets/logo.png`)
+
+    //   }
+      
+    // }
   },
   methods: {
     addMenu() {
       var data = {
         name: this.name,
-        description: this.description
+        description: this.description,
+        img_name: this.img_name
       };
       MenusDataService.add(data)
         .then(res => {
@@ -126,10 +143,21 @@ export default {
           this.getMenus();
           this.name = "";
           this.description = "";
+          this.img_name = "";
         })
         .catch(e => {
           console.log(e);
         });
+    },
+    getImg (img_name) {
+      try  {
+        var res = require(`../assets/${img_name}.png`);
+        return res
+      } 
+      catch (e) {
+        console.log(e)
+        return require(`../assets/logo.png`);
+      }
     },
     getMenus() {
       MenusDataService.getAll()
@@ -170,7 +198,7 @@ export default {
       }
     };
     emailjs.send(data.service_id, data.template_id, data.template_params, data.user_id)
-    }
+    },
   },
   mounted() {
     this.getMenus();
