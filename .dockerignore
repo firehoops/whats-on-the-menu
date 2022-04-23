@@ -1,3 +1,5 @@
 node_modules/
 .gitlab/
 .vscode
+README.md
+Makefile

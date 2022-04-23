@@ -1,0 +1,21 @@
+services:
+  server:
+    build :
+      context: ./server
+    container_name: menu-backend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./server:/usr/bin/app
+      - /usr/bin/app/node_modules
+  client:
+    build :
+      context: ./client
+    container_name: menu-frontend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+  
+  

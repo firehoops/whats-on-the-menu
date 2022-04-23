@@ -3,7 +3,6 @@ const app = express();
 const menusRouter = require('./routes/menusRoute');
 const cors = require('cors')
 const db = require('./db')
-const asyncDb = require('./asyncDb')
 
 
 app.use(cors())

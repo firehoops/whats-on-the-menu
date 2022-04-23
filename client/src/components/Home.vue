@@ -120,15 +120,6 @@ export default {
   }),
   computed: { 
     // compute checkout cart dynamically
-    // getImg () {
-    //   if (this.img_name && require(`../assets/${this.img_name}.png`)) {
-    //     return require(`../assets/${this.img_name}.png`)
-    //   } else {
-    //     return require(`../assets/logo.png`)
-
-    //   }
-      
-    // }
   },
   methods: {
     addMenu() {
