@@ -11,13 +11,14 @@ RUN npm run build
 
 FROM node:14 AS server
 
-WORKDIR /app/
+WORKDIR /usr/src/app/server
 
-COPY package*.json .
+COPY server/package*.json .
 RUN npm install
 
-COPY . .
+COPY /server/ .
+
 ENV PORT=8080
 EXPOSE 8080
 
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
