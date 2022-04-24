@@ -11,7 +11,9 @@ RUN npm run build
 
 FROM node:14 AS server
 
-WORKDIR /usr/src/app/server
+WORKDIR /app/
+
+COPY --from=client /usr/src/server/public ./public
 
 COPY server/package*.json .
 RUN npm install
