@@ -10,14 +10,14 @@ RUN npm run build
 
 FROM node:14 AS server
 
-WORKDIR /roor/server/
+WORKDIR /app/
 
-COPY --from=client /usr/src/app/dist ../client/dist
+COPY --from=client /usr/src/app/dist ./dist
 
-COPY server/package*.json .
+COPY package*.json .
 RUN npm install
 
-COPY /server/ ./
+COPY . .
 EXPOSE 3000 8080
 
 CMD ["npm", "start"]

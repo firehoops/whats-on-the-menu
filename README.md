@@ -3,23 +3,18 @@ Allows home cooks to have a list of favorite dishes or recipes ready for your fa
 
 
 # client
-
 ## Project setup
+note: Docker must be installed and running for the containers to run
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+make build
 ```
 
-### Compiles and minifies for production
+## Start Client & Back-end
 ```
-npm run build
+make up
 ```
 
-### Lints and fixes files
+## Stop servers
 ```
-npm run lint
+make down
 ```
