@@ -3,7 +3,7 @@ const app = express();
 const menusRouter = require('./routes/menusRoute');
 const cors = require('cors')
 const db = require('./db')
-
+const port = process.env.PORT || 3000;
 
 app.use(cors())
 app.use(express.json())
@@ -24,6 +24,6 @@ app.get("/menus/", (req, res, next) => {
 })
 app.use('/menus', menusRouter);
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log("HTTP server running at http://localhost:3000");
 });
