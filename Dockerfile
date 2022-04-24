@@ -6,7 +6,6 @@ COPY client/package*.json .
 RUN npm install
 
 COPY /client/ ./
-
 # Builds files in server/
 RUN npm run build
 
@@ -18,6 +17,7 @@ COPY package*.json .
 RUN npm install
 
 COPY . .
-EXPOSE 3000 8080
+ENV PORT=8080
+EXPOSE 8080
 
 CMD ["npm", "start"]
