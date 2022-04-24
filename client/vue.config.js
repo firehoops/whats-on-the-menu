@@ -1,4 +1,6 @@
 const { defineConfig } = require("@vue/cli-service");
+const path = require('path');
+
 module.exports = defineConfig({
   transpileDependencies: true,
 
@@ -7,8 +9,11 @@ module.exports = defineConfig({
       // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
     },
   },
+  outputDir: path.resolve(__dirname,'../server/public'),
   devServer: {
     // Proxy for CORS for email 
-    proxy: 'http://localhost:8080'
+    '/api':{
+      target: 'http://localhost:3000'
+  }
 }
 });

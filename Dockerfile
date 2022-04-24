@@ -6,13 +6,13 @@ COPY client/package*.json .
 RUN npm install
 
 COPY /client/ ./
+
+# Builds files in server/
 RUN npm run build
 
 FROM node:14 AS server
 
 WORKDIR /app/
-
-COPY --from=client /usr/src/app/dist ./dist
 
 COPY package*.json .
 RUN npm install
