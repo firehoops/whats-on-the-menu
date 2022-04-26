@@ -27,5 +27,11 @@ app.get("/menus/", (req, res, next) => {
 app.use('/menus', menusRouter);
 
 app.listen(PORT, () => {
-    console.log(`HTTP server running at http://localhost:${PORT}`);
+    if (process.env.RUN_ENV == "prod") {
+        process.env.BASE_URL=`https://menu-dntpdkhpxq-uc.a.run.app`
+    }
+    else {
+        process.env.BASE_URL=`http://localhost:${PORT}`
+    }
+    console.log(`HTTP server running at ${process.env.BASE_URL}`);
 });
