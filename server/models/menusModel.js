@@ -1,18 +1,18 @@
 const db = require('../db.js')
 
 const menusModel = {
-    getAllMenus: new Promise((resolve, reject) => {
-        const query = "SELECT * FROM menus";
+    // getAllMenus: new Promise((resolve, reject) => {
+    //     const query = "SELECT * FROM menus";
 
-        db.all(query, [], (err, rows) => {
-        if (err) {
-            reject(err)
-        } else {
-            resolve(rows)
-            }
-        }),
-        console.log("fetched all menus")
-    }),
+    //     db.all(query, [], (err, rows) => {
+    //     if (err) {
+    //         reject(err)
+    //     } else {
+    //         resolve(rows)
+    //         }
+    //     }),
+    //     console.log("fetched all menus")
+    // }),
 
     addMenu: ({name, description, img_name}) => {
         const query = "INSERT INTO menus (name, description, img_name) VALUES (?, ?, ?)";

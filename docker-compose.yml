@@ -7,6 +7,3 @@ services:
       - 8080:8080
     environment:
       - RUN_ENV="local"
-    volumes:
-      - ./server:/app
-      - /app/node_modules

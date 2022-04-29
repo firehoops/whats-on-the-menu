@@ -10,10 +10,4 @@ module.exports = defineConfig({
     },
   },
   outputDir: path.resolve(__dirname,'../server/public'),
-  devServer: {
-    // Proxy for CORS for email 
-    '/api':{
-      target: 'http://localhost:3000'
-  }
-}
 });

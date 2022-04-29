@@ -7,25 +7,28 @@
           </v-icon>
       </v-btn>
       <v-navigation-drawer v-model="drawer" color="#393939" temporary position="right">
-        <v-list align="center" class="text-h4" v-if="checkout_cart" lines>
-            <v-list-item-header class="mt-2 font-weight-bold" >Checkout Cart</v-list-item-header>
+        <v-list align="center" color="#393939" class="text-h4" v-if="checkout_cart" lines>
+            <v-list-item-header  class="mt-2 font-weight-bold" >Checkout Cart</v-list-item-header>
             <v-list-item v-for="(menu_name, idx) in checkout_cart" :key="idx" class="text-body-1">
-              <span>{{idx + 1}}. {{ menu_name }}</span>
+              <span class="menuName">{{idx + 1}}. {{ menu_name }}</span>
               <v-spacer></v-spacer>
               <v-btn icon @click="removeFromCart(idx)" color="error" size="x-small">
                 <v-icon>mdi-trash-can</v-icon>
               </v-btn>
             </v-list-item>
-            <div v-if="!checkout_cart.length" class="mt-6">Your Cart is Empty!</div>
+            <div v-if="!checkout_cart.length && !submitted" class="mt-6">Your Cart is Empty!</div>
             <v-btn v-if="checkout_cart.length" color="primary" @click="sendEmail">Submit your order!</v-btn>
         </v-list>
+        <v-alert v-if="submitted" density="compact" closable type="success" align="start">Successfully Submitted!</v-alert>
       </v-navigation-drawer>
     </v-container>
     <!-- Intro & Add new menu area -->
     <v-row class="text-center">
       <v-col cols="8" align="left">
-        <h1 class="display-2 font-weight-bold mb-3">Whats on the Menu?</h1>
-        <h3>Create a menu to plan out your meals for the week. Whether you're planning for yourself, family, or friends be prepared and know whats on the menu.</h3>
+        <h1 class="display-1 font-weight-bold mb-3">Whats on the Menu?</h1>
+        <h3>Create a menu to plan out your meals for the week. Click the add button on each meal you want and then head over to your cart!</h3>
+        <br>
+        <h3>Whether you're planning for yourself, family, or friends be prepared and know whats on the menu.</h3>
       </v-col>
       <v-col cols="4">
           <v-form>
@@ -71,7 +74,6 @@
                   max-height="200"
                   cover
                   :src="getImg(menu.img_name)"
-                  :alt="require(`../assets/logo.svg`)"
                 >
                 </v-img>
                 <v-card-title>
@@ -118,8 +120,7 @@ export default {
     checkout_cart: [],
     drawer: false,
   }),
-  computed: { 
-    // compute checkout cart dynamically
+  computed: {
   },
   methods: {
     addMenu() {
@@ -173,6 +174,7 @@ export default {
     },
     addToCart(menu_name) {
       this.checkout_cart.push(menu_name);
+      this.submitted = false;
     },
     removeFromCart(idx) {
       this.checkout_cart.splice(idx,1);
@@ -188,7 +190,9 @@ export default {
           message: this.checkout_cart,
       }
     };
-    emailjs.send(data.service_id, data.template_id, data.template_params, data.user_id)
+    emailjs.send(data.service_id, data.template_id, data.template_params, data.user_id);
+    this.checkout_cart = [];
+    this.submitted = true;
     },
   },
   mounted() {
@@ -201,9 +205,12 @@ export default {
 #text-box {
   text-align: left;
   color: white;
-  overflow: auto;
 }
 #card-gray {
   color: #393939;
+}
+
+.menuName {
+  white-space: nowrap;
 }
 </style>
